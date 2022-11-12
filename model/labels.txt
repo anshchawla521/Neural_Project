@@ -1,0 +1,3 @@
+0 goleft
+1 goright
+2 extra
