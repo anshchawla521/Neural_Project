@@ -4,23 +4,20 @@ import cv2
 from cvzone.HandTrackingModule import HandDetector
 import numpy as np
 import math
-import serial
 import time
+
+# for capturing images
 
 cap = cv2.VideoCapture(1)
 detector = HandDetector(maxHands=1)
 offset = 20
 imgsize = 300
-Test_mode = 0 # 0: test without Serial
-              # 1: test with Serial 
 
-folder = "Images/3finger" 
+
+folder = "Images/1finger" 
 counter = 0
 
-if(Test_mode not in [0]):
-    arduino = serial.Serial('COM3')
-    print(f'connected to {arduino.name}')
-    arduino.write("hello".encode())
+
 
 
 while True :

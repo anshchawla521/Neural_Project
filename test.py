@@ -1,4 +1,4 @@
-from tkinter import Label
+
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 from cvzone.ClassificationModule import Classifier
@@ -27,9 +27,10 @@ with open("model/labels.txt") as file:
 
 
 if(Test_mode not in [0]):
-    arduino = serial.Serial('COM3')
+    arduino = serial.Serial('COM3',baudrate = 115200)
     print(f'connected to {arduino.name}')
-    arduino.write("hello".encode())
+    time.sleep(2)
+    arduino.write("h".encode())
 
 
 while True :
@@ -73,7 +74,11 @@ while True :
             cv2.rectangle(img_copy, (x-offset,y-offset) , (x+w+offset,y+h+offset),(255,0,0),2)
             cv2.putText(img_copy , labels[index], (x-offset,y-offset),cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
             if(Test_mode not in [0]):
-                arduino.write(labels[index].encode())
+                if (labels[index] == "goleft"):
+                    arduino.write("l".encode())
+                if (labels[index] == "goright"):
+                    arduino.write("r".encode())
+
 
 
 
@@ -91,6 +96,12 @@ while True :
     
     if key == ord('e'):
         break
+    if key == ord('l'):
+        arduino.write("l".encode())
+        print("l".encode())
+    if key == ord('r'):
+        arduino.write("r".encode())
+        print("r".encode())
 
 if(Test_mode not in [0]):
     arduino.close()
