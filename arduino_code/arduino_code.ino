@@ -5,8 +5,7 @@ char c;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  pinMode(13 , OUTPUT);
-  
+  dacWrite(25 , 121);
 
 }
 
@@ -17,12 +16,13 @@ void loop() {
     c = Serial.read();
     if(c == 'l')
   {
-    digitalWrite(13 , HIGH);
+    dacWrite(25 , 100);
   }else  if(c == 'r')
   {
-    digitalWrite(13 , LOW);
+    dacWrite(25 , 140);
   }else{
     c = '\0';
+    dacWrite(25 , 121);
   }
 
   Serial.println(c);

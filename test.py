@@ -67,17 +67,21 @@ while True :
                 img_white[heightGap:heightGap+imgResize.shape[0],0:imgResize.shape[1]] = imgResize
 
 
-            
+            #cv2.imshow("test image", img_white)
             prediction , index = classifier.getPrediction(img_white,draw=False)
             print(prediction,index)
             cv2.imshow("Croppedimage" , img_white) # removed in between stage
             cv2.rectangle(img_copy, (x-offset,y-offset) , (x+w+offset,y+h+offset),(255,0,0),2)
-            cv2.putText(img_copy , labels[index], (x-offset,y-offset),cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
-            if(Test_mode not in [0]):
-                if (labels[index] == "goleft"):
-                    arduino.write("l".encode())
-                if (labels[index] == "goright"):
-                    arduino.write("r".encode())
+            cv2.putText(img_copy , labels[index]+" "+str(round(prediction[index],2)), (x-offset,y-offset),cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
+            
+            if (prediction[index]>0.85):
+                if(Test_mode not in [0]):
+                    if (labels[index] == "goleft"):
+                        arduino.write("l".encode())
+                    if (labels[index] == "goright"):
+                        arduino.write("r".encode())
+            else:
+                arduino.write("f".encode())
 
 
 
@@ -90,7 +94,10 @@ while True :
         except Exception as e:
             print(x,y,h,w)
             print(e)
+    else:
+        arduino.write("f".encode())
     cv2.imshow("image" , img_copy)
+
     
     key = cv2.waitKey(1)
     
