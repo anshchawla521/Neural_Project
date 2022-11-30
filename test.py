@@ -27,7 +27,7 @@ with open("model/labels.txt") as file:
 
 
 if(Test_mode not in [0]):
-    arduino = serial.Serial('COM3',baudrate = 115200)
+    arduino = serial.Serial('COM6',baudrate = 115200)
     print(f'connected to {arduino.name}')
     time.sleep(2)
     arduino.write("h".encode())
